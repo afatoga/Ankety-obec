@@ -30,15 +30,6 @@ function confirmUserVote() {
         confirmButtons[i].style.display = 'none';
     }
 
-    /*
-    var confirmSection = document.getElementsByClassName('confirmSection');
-    for (var i=0, n=confirmSection.length; i < n; ++i) {
-        var confirmButton = '<button type="button" class="checkRating" onclick="checkRating();return false">Potvrdit</button>';
-        confirmSection[i].style.display = 'block';
-        confirmSection[i].innerHTML += confirmButton;
-    }
-    */
-
    var confirmSections = document.getElementsByClassName('confirmSection');
    for (var i=0, n=confirmSections.length; i < n; ++i) {
        confirmSections[i].style.display = 'block';
@@ -121,7 +112,6 @@ function checkRating() {
             }
             else if (ratings[i].value!=0) 
             {   negativeRatings[ratings[i].id]=ratings[i].value;
-                //negativeValues.push(Number(ratings[i].value));
 
                 if (ratings[i].value<=-2) {
                     appendAlertToItem(ratings[i], 'Pouze 1 záporný hlas na projekt.');
@@ -142,28 +132,11 @@ function checkRating() {
     var negativeValues = Object.keys(negativeRatings).map(function(e) {
         return negativeRatings[e]
     });
-    //Object.keys(positiveRatings).map(itm => positiveRatings[itm]);
-    //Object.values(positiveRatings);
-    //var negativeValues = Object.keys(negativeRatings).map(itm => negativeRatings[itm]);
-    //Object.values(negativeRatings);
-
-    //console.log(Object.keys(positiveValues).length);
-    //console.log(Object.values(positiveValues));
 
     
     // nic nevyplneno
     if (!Object.keys(positiveRatings).length && !Object.keys(negativeRatings).length)   
-    {   /*
-        var error = document.createElement("div");
-        error.className = 'error-label alert alert-warning';
-        error.innerHTML = 'Neudělil(a) jste žádný hlas.';
-        var votings = document.getElementsByClassName('personal-project-voting');
-        
-        for (var i=0, n=votings.length; i < n; ++i) {
-            insertAfter(votings[i], error.cloneNode(true));
-        }
-        */
-
+    {   
        showAlertInSidebar('Neudělil(a) jste žádný hlas.');
        showConfirmButton();
 
@@ -183,7 +156,6 @@ function checkRating() {
     {   
         showAlertInSidebar('2 záporné hlasy můžete rozdat pouze, když udělíte 4 kladné.');
         showConfirmButton();
-        
         return false;
     }
     // max 2 zaporne
@@ -191,11 +163,9 @@ function checkRating() {
     {   
         showAlertInSidebar('Rozdal(a) jste více než 2 záporné hlasy.');
         showConfirmButton();
-
         return false; 
     }
 
-    
     var allRatings = Object.assign(positiveRatings, negativeRatings);
     saveRating(allRatings);
 
@@ -215,7 +185,6 @@ function saveRating(allRatings) {
         if (this.status >= 200 && this.status < 400) {
             // If successful       
             var data = JSON.parse(this.response);
-            //var projectIds = Object.keys(data.data);
             var votedProjects = Object.keys(data.data).map(function(e) {
                 return data.data[e]
             });
