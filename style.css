@@ -1,0 +1,88 @@
+/*
+Theme Name: ankety-obec-cz
+Theme URI: https://www.obeczdiby.cz
+Author: Vladimír Mryščuk
+Author URI: https://www.pcspace.cz
+Description: wp theme for application ankety obec
+Version: 1.0
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: ANKETY-OBEC-CZ
+*/
+
+div.vm_projectItem a {
+    color:#000;
+}
+
+div.vm_see-more {
+    text-align: left;
+    padding: 1.6rem 0 0;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+div.vm_see-more:hover {
+    text-decoration: underline;
+}
+
+div.vm_evenItem {
+    background: #f7f7ee;
+}
+
+div.confirmSection {
+    display: none;
+}
+
+#vm_successSection {
+    display: none;
+}
+
+div.vm_alignFlex {
+  display: flex;
+  align-items: center;
+}
+
+a.vm_userIsLoggedIn {
+color: #ff9900 !important;
+}
+
+a.vm_userIsLoggedIn:hover {
+    color:#fff !important;
+}
+
+div.vm_singleContent > p {
+    padding-bottom:2rem;
+}
+
+
+
+/* 
+  ##Device = Tablets, Ipads (portrait), mobiles
+  ##Screen = B/w 320px to 1024px
+*/
+
+@media (max-width: 991px) {
+    div.container {
+        max-width: 100%;
+    }
+  }
+
+@media (min-width: 320px) and (max-width: 1024px) {
+  
+    div.vm_categoryItemImage {
+        padding-bottom:1.5rem;
+    }
+    
+  }
+
+  @media (min-width: 1199px) {
+    div.vm_frontPageBlock {
+        margin-top: 3rem;
+    }
+    div.vm_frontPagePadding {
+        padding: 0 3rem 0;
+    }
+    div.vm_frontPageBlock > img.wp-post-image {
+        border-radius: 8px;
+    }
+  }
