@@ -1,34 +1,34 @@
-Postup nasazení:
+Postup nasazenÃ­:
 
-1.	Instalace redakcního systému Wordpress
+1.	Instalace redakÄnÃ­ho systÃ©mu Wordpress
 
-Z oficiálních stránek stáhneme ceskou mutaci redakcního systému, aktuální verze v dobe psaní práce je 5.1.1. Extrahujeme obsah adresáre wordpress ze staeného archívu do adresáre, pro kterı je nastaven prístup pres webovı server. V prípade sdíleného serveru provedeme nahrání obsahu adresáre wordpress pres FTP (SFTP) do adresáre web nebo www (dle hostingu). Poté spustíme prohlíec a zadáme adresu webového serveru, v prípade sdíleného serveru námi vybranou doménu.
-V prohlíeci se zobrazí instalacní program, kde zadáme pripojení k databázi, název a popis aplikace, zrídíme úcet správce aplikace. Kdy je instalace dokoncena, mueme se prihlásit jako správce do admin-zóny.
- https://cs.wordpress.org/
+Z oficiÃ¡lnÃ­ch strÃ¡nek stÃ¡hneme Äeskou mutaci redakÄnÃ­ho systÃ©mu, aktuÃ¡lnÃ­ verze v dobÄ› psanÃ­ prÃ¡ce je 5.1.1. Extrahujeme obsah adresÃ¡Å™e wordpress ze staÅ¾enÃ©ho archÃ­vu do adresÃ¡Å™e, pro kterÃ½ je nastaven pÅ™Ã­stup pÅ™es webovÃ½ server. V pÅ™Ã­padÄ› sdÃ­lenÃ©ho serveru provedeme nahrÃ¡nÃ­ obsahu adresÃ¡Å™e wordpress pÅ™es FTP (SFTP) do adresÃ¡Å™e web nebo www (dle hostingu). PotÃ© spustÃ­me prohlÃ­Å¾eÄ a zadÃ¡me adresu webovÃ©ho serveru, v pÅ™Ã­padÄ› sdÃ­lenÃ©ho serveru nÃ¡mi vybranou domÃ©nu.
+V prohlÃ­Å¾eÄi se zobrazÃ­ instalaÄnÃ­ program, kde zadÃ¡me pÅ™ipojenÃ­ k databÃ¡zi, nÃ¡zev a popis aplikace, zÅ™Ã­dÃ­me ÃºÄet sprÃ¡vce aplikace. KdyÅ¾ je instalace dokonÄena, mÅ¯Å¾eme se pÅ™ihlÃ¡sit jako sprÃ¡vce do admin-zÃ³ny.
+ https://cs.wordpress.org/ 
+
+ 2.	Implementace Å¡ablony
  
-2.	Implementace šablony
+V levÃ©m menu vybereme poloÅ¾ku Vzhled a v nÄ›m Å ablony. Na strÃ¡nce SprÃ¡va Å¡ablon stiskneme na tlaÄÃ­tko instalovat, dÃ¡le tlaÄÃ­tko NahrÃ¡t Å¡ablonu a vybereme soubor se Å¡ablonou, kterÃ½ je dostupnÃ½ v github repozitÃ¡Å™i URL: https://github.com/afatoga/Ankety-obec.
 
-V levém menu vybereme poloku Vzhled a v nem Šablony. Na stránce Správa šablon stiskneme na tlacítko instalovat, dále tlacítko Nahrát šablonu a vybereme soubor se šablonou, kterı je dostupnı v github repozitári URL: https://github.com/afatoga/Ankety-obec.
+3.	Integrace rozÅ¡Ã­Å™enÃ­ do aplikace
 
-3.	Integrace rozšírení do aplikace
+V repozitÃ¡Å™i Å¡ablony je adresÃ¡Å™ vm_plugins, kde jsou umÃ­stÄ›na vÅ¡echna rozÅ¡Ã­Å™enÃ­, se kterÃ½mi aplikace pracuje. AdresÃ¡Å™ mu-plugins vyjmÄ›te a pÅ™emÃ­stÄ›te do adresÃ¡Å™e wp-content. OstatnÃ­ch 6 adresÃ¡Å™Å¯ umÃ­stÄ›te do adresÃ¡Å™e wp-content/plugins.
+NÃ¡slednÄ› v admin-zÃ³nÄ› vyberte v menu poloÅ¾ku Pluginy a otevÅ™ete strÃ¡nku PÅ™ehled pluginÅ¯, zde postupnÄ› v libovolnÃ©m poÅ™adÃ­ aktivujte dostupnÃ¡ rozÅ¡Ã­Å™enÃ­. V zÃ¡loÅ¾ce Automaticky aktivovanÃ© mÅ¯Å¾e zkontrolovat pÅ™Ã­tomnost rozÅ¡Ã­Å™enÃ­ Password bcrypt.
 
-V repozitári šablony je adresár vm_plugins, kde jsou umístena všechna rozšírení, se kterımi aplikace pracuje. Adresár mu-plugins vyjmete a premístete do adresáre wp-content. Ostatních 6 adresáru umístete do adresáre wp-content/plugins.
-Následne v admin-zóne vyberte v menu poloku Pluginy a otevrete stránku Prehled pluginu, zde postupne v libovolném poradí aktivujte dostupná rozšírení. V záloce Automaticky aktivované mue zkontrolovat prítomnost rozšírení Password bcrypt.
+4.	NastavenÃ­ a pouÅ¾itÃ­ rozÅ¡Ã­Å™enÃ­
 
-4.	Nastavení a pouití rozšírení
+Editor uÅ¾ivatelskÃ½ rolÃ­ naleznou v menu pod poloÅ¾kou UÅ¾ivatelÃ©, zde je nutnÃ© pÅ™idat novÃ© nebo upravit existujÃ­cÃ­ role a pÅ™iÅ™adit k nim povolenÃ© operace. V nastavenÃ­ rozÅ¡Ã­Å™enÃ­ User Submitted Posts se upravuje zobrazovanÃ½ formulÃ¡Å™, vlastnosti pÅ™idanÃ½ch pÅ™Ã­spÄ›vkÅ¯ a e-mailovÃ© upozornÄ›nÃ­ moderÃ¡tora.
+PoslednÃ­m konfigurovatelnÃ½m rozÅ¡Ã­Å™enÃ­m pro sprÃ¡vnÃ½ bÄ›h aplikace je vytvoÅ™enÃ­ navigaÄnÃ­ho menu, nalezneme jej v pÅ™edvolbÄ› Vzhled, volba Menu. Na tÃ©to strÃ¡nce vytvoÅ™Ã­me novÃ© menu, a u jednotlivÃ½ch poloÅ¾ek mÅ¯Å¾eme dÃ­ky rozÅ¡Ã­Å™enÃ­ User Menus nastavit viditelnost pouze pro pÅ™ihlÃ¡Å¡enÃ© uÅ¾ivatele.
+Po dÅ¯kladnÃ©m nastavenÃ­ vÅ¡ech komponent aplikace je vhodnÃ© vytvoÅ™it zÃ¡lohu nebo automatickÃ© zÃ¡lohovÃ¡nÃ­ v pÅ™edvolbÄ› NÃ¡stroje, volba ZÃ¡lohovÃ¡nÃ­.
 
-Editor uivatelskı rolí naleznou v menu pod polokou Uivatelé, zde je nutné pridat nové nebo upravit existující role a priradit k nim povolené operace. V nastavení rozšírení User Submitted Posts se upravuje zobrazovanı formulár, vlastnosti pridanıch príspevku a e-mailové upozornení moderátora.
-Posledním konfigurovatelnım rozšírením pro správnı beh aplikace je vytvorení navigacního menu, nalezneme jej v predvolbe Vzhled, volba Menu. Na této stránce vytvoríme nové menu, a u jednotlivıch poloek mueme díky rozšírení User Menus nastavit viditelnost pouze pro prihlášené uivatele.
-Po dukladném nastavení všech komponent aplikace je vhodné vytvorit zálohu nebo automatické zálohování v predvolbe Nástroje, volba Zálohování.
+5.	PÅ™iÅ™azenÃ­ strÃ¡nkovÃ½ch Å¡ablon k jednotlivÃ½m strÃ¡nkÃ¡m
 
-5.	Prirazení stránkovıch šablon k jednotlivım stránkám
+V admin-zÃ³nÄ›, v pÅ™ehledu strÃ¡nek vytvoÅ™Ã­me strÃ¡nky a pÅ™iÅ™adÃ­me jim speciÃ¡lnÄ› nadefinovanÃ© Å¡ablony vm_userPostSubmit pro strÃ¡nku Podat projekt a vm_userRegistration pro strÃ¡nku Registrace. Pro strÃ¡nku Registrace dÃ¡le pÅ™iÅ™adÃ­me uÅ¾ivatelskÃ¡ pole vm_registrationRECAPTCHAsecret a vm_registrationRECAPTCHAsite pro inicializaci reCAPTCHA ovÄ›Å™ovÃ¡nÃ­. Pro strÃ¡nku Podat projekt pÅ™iÅ™adÃ­me uÅ¾ivatelskÃ© pole vm_userMustBeLoggedIn, jednÃ¡ se o textovou hlÃ¡Å¡ku, Å¾e uÅ¾ivatel musÃ­ bÃ½t pÅ™ihlÃ¡Å¡en. Na ÃšvodnÃ­ strÃ¡nce musÃ­me definovat nadpis pravÃ©ho sloupce uÅ¾ivatelskÃ½m polem vm_sidebarTitle.
 
-V admin-zóne, v prehledu stránek vytvoríme stránky a priradíme jim speciálne nadefinované šablony vm_userPostSubmit pro stránku Podat projekt a vm_userRegistration pro stránku Registrace. Pro stránku Registrace dále priradíme uivatelská pole vm_registrationRECAPTCHAsecret a vm_registrationRECAPTCHAsite pro inicializaci reCAPTCHA overování. Pro stránku Podat projekt priradíme uivatelské pole vm_userMustBeLoggedIn, jedná se o textovou hlášku, e uivatel musí bıt prihlášen. Na Úvodní stránce musíme definovat nadpis pravého sloupce uivatelskım polem vm_sidebarTitle.
+6.	DoplnÄ›nÃ­ obsahÅ¯ pro jednotlivÃ© strÃ¡nky
 
-6.	Doplnení obsahu pro jednotlivé stránky
+PoslednÃ­m bodem nasazenÃ­ jsou texty, obrÃ¡zky a vizuÃ¡lnÃ­ kompozice, vÅ¡echny operace souvisejÃ­cÃ­ s tÃ­mto bodem mÅ¯Å¾ou vykonÃ¡vat uÅ¾ivatelÃ© s rolemi moderÃ¡tor nebo sprÃ¡vce aplikace.
 
-Posledním bodem nasazení jsou texty, obrázky a vizuální kompozice, všechny operace související s tímto bodem muou vykonávat uivatelé s rolemi moderátor nebo správce aplikace.
+7.	StahovÃ¡nÃ­ vÃ½sledkÅ¯ hlasovÃ¡nÃ­
 
-7.	Stahování vısledku hlasování
-
-K tomuto úcelu je pripravena volba CSV export v admin-zóne.
+K tomuto ÃºÄelu je pÅ™ipravena volba CSV export v admin-zÃ³nÄ›.
