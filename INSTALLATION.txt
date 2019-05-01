@@ -1,0 +1,34 @@
+Postup nasazení:
+
+1.	Instalace redakcního systému Wordpress
+
+Z oficiálních stránek stáhneme ceskou mutaci redakcního systému, aktuální verze v dobe psaní práce je 5.1.1. Extrahujeme obsah adresáre wordpress ze staženého archívu do adresáre, pro který je nastaven prístup pres webový server. V prípade sdíleného serveru provedeme nahrání obsahu adresáre wordpress pres FTP (SFTP) do adresáre web nebo www (dle hostingu). Poté spustíme prohlížec a zadáme adresu webového serveru, v prípade sdíleného serveru námi vybranou doménu.
+V prohlížeci se zobrazí instalacní program, kde zadáme pripojení k databázi, název a popis aplikace, zrídíme úcet správce aplikace. Když je instalace dokoncena, mužeme se prihlásit jako správce do admin-zóny.
+ https://cs.wordpress.org/
+ 
+2.	Implementace šablony
+
+V levém menu vybereme položku Vzhled a v nem Šablony. Na stránce Správa šablon stiskneme na tlacítko instalovat, dále tlacítko Nahrát šablonu a vybereme soubor se šablonou, který je dostupný v github repozitári URL: https://github.com/afatoga/Ankety-obec.
+
+3.	Integrace rozšírení do aplikace
+
+V repozitári šablony je adresár vm_plugins, kde jsou umístena všechna rozšírení, se kterými aplikace pracuje. Adresár mu-plugins vyjmete a premístete do adresáre wp-content. Ostatních 6 adresáru umístete do adresáre wp-content/plugins.
+Následne v admin-zóne vyberte v menu položku Pluginy a otevrete stránku Prehled pluginu, zde postupne v libovolném poradí aktivujte dostupná rozšírení. V záložce Automaticky aktivované muže zkontrolovat prítomnost rozšírení Password bcrypt.
+
+4.	Nastavení a použití rozšírení
+
+Editor uživatelský rolí naleznou v menu pod položkou Uživatelé, zde je nutné pridat nové nebo upravit existující role a priradit k nim povolené operace. V nastavení rozšírení User Submitted Posts se upravuje zobrazovaný formulár, vlastnosti pridaných príspevku a e-mailové upozornení moderátora.
+Posledním konfigurovatelným rozšírením pro správný beh aplikace je vytvorení navigacního menu, nalezneme jej v predvolbe Vzhled, volba Menu. Na této stránce vytvoríme nové menu, a u jednotlivých položek mužeme díky rozšírení User Menus nastavit viditelnost pouze pro prihlášené uživatele.
+Po dukladném nastavení všech komponent aplikace je vhodné vytvorit zálohu nebo automatické zálohování v predvolbe Nástroje, volba Zálohování.
+
+5.	Prirazení stránkových šablon k jednotlivým stránkám
+
+V admin-zóne, v prehledu stránek vytvoríme stránky a priradíme jim speciálne nadefinované šablony vm_userPostSubmit pro stránku Podat projekt a vm_userRegistration pro stránku Registrace. Pro stránku Registrace dále priradíme uživatelská pole vm_registrationRECAPTCHAsecret a vm_registrationRECAPTCHAsite pro inicializaci reCAPTCHA overování. Pro stránku Podat projekt priradíme uživatelské pole vm_userMustBeLoggedIn, jedná se o textovou hlášku, že uživatel musí být prihlášen. Na Úvodní stránce musíme definovat nadpis pravého sloupce uživatelským polem vm_sidebarTitle.
+
+6.	Doplnení obsahu pro jednotlivé stránky
+
+Posledním bodem nasazení jsou texty, obrázky a vizuální kompozice, všechny operace související s tímto bodem mužou vykonávat uživatelé s rolemi moderátor nebo správce aplikace.
+
+7.	Stahování výsledku hlasování
+
+K tomuto úcelu je pripravena volba CSV export v admin-zóne.
