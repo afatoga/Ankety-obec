@@ -10,8 +10,16 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: ANKETY-OBEC-CZ
 */
 
+p#vm_projectsPageDescription {
+    font-size: 1.1rem;
+}
+
 div.vm_projectItem a {
     color:#000;
+}
+
+div.vm_projectItem > div > div > p {
+    font-size:1.1rem;
 }
 
 div.vm_see-more {
@@ -33,8 +41,46 @@ div.confirmSection {
     display: none;
 }
 
+#vm_voteCountExceededEcho {
+    display: none;
+}
+
 #vm_successSection {
     display: none;
+}
+
+#vm_warningSection {
+    display: none;
+}
+
+#vm_loadingAnimation {
+    margin:auto;
+    display: none;
+}
+
+.vm_voteButton {
+    padding: 0.5rem 1.4rem;
+    font-size: 1.4rem;
+}
+
+div.vm_projectVoteSection {
+    text-align: right;
+}
+
+#sidebar > * {
+  font-size: 1.2rem;
+}
+
+.personal-project-voting {
+    font-weight: 700;
+}
+
+#sidebar h4 {
+  font-weight: 700;
+}
+
+.confirmUserVote {
+  font-size: 1.2rem;
 }
 
 div.vm_alignFlex {
@@ -42,18 +88,15 @@ div.vm_alignFlex {
   align-items: center;
 }
 
-a.vm_userIsLoggedIn {
-color: #ff9900 !important;
-}
-
-a.vm_userIsLoggedIn:hover {
-    color:#fff !important;
-}
-
 div.vm_singleContent > p {
     padding-bottom:2rem;
+    font-size: 1.1rem;
 }
 
+span.vm_torro-required {
+    color:#ef5757;
+    font-size:1rem;
+}
 
 
 /* 
@@ -86,3 +129,48 @@ div.vm_singleContent > p {
         border-radius: 8px;
     }
   }
+
+/* 
+  login form
+*/
+
+ p.login-submit {
+     display:none;
+ }
+ #user_login, #user_pass {
+    display: block;
+ }
+
+ p.vm_loginLostPwd {
+    padding-top:1rem;
+ }
+
+#vm_loginForm label {
+    color:#000;
+}
+
+ p.vm_loginLostPwd a {
+    color:#313131;
+    font-size:0.8rem;
+ }
+
+/*
+ colors
+ */
+
+nav.navbar {
+ background-color: #d02004;
+ font-weight:initial;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover {
+	color: #474747;
+}
+
+a.vm_userIsLoggedIn {
+ color: #ff9900 !important;
+}

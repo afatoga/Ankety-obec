@@ -1,144 +1,130 @@
 <?php //declare(strict_types=1);
 
-add_action( 'wp_ajax_checkUserVoteAjax', 'checkUserVoteAjax' );
+add_action( 'wp_ajax_saveUserVoteAjax', 'saveUserVoteAjax' );
+//add_action( 'wp_ajax_checkPreviousUserVoteAjax', 'checkPreviousUserVoteAjax' );
 
-function checkUserVoteAjax () {
-
+function saveUserVoteAjax () 
+{
     if (!empty($_POST)) 
     {
+        $queried_post =  get_page_by_title( "Projekty", OBJECT, "page");
+        $vm_allowedVotesCount = get_post_meta($queried_post->ID, "vm_allowedVotesCount", true);
 
-        $voteToSave = json_decode(stripslashes($_POST['userRatings']), true);
-        if($voteToSave === null) 
+        $voteToSave = json_decode(stripslashes($_POST['userVote']), true);
+        
+        if ($voteToSave === null) 
         {
             wp_send_json_error();
         }
         
-        else 
-        {   
-           $sumPositiveRatings = 0; 
-           $sumNegativeRatings = 0;
-           
+        else {
 
-           foreach ($voteToSave as $id => $rating) 
-           {   
+            $voteItemsSum = 0;
+            $preparedVoteToSave = [];
+            
+            foreach ($voteToSave as $id => $voteItemValue) 
+            {   
+                if (!filter_var($id, FILTER_SANITIZE_STRING)) 
+                {
+                    wp_send_json_error();
+                }
 
-                    if (!filter_var($id, FILTER_SANITIZE_STRING)) {
-                        wp_send_json_error();
-                    }
+                if (!filter_var($voteItemValue, FILTER_SANITIZE_NUMBER_INT)) 
+                {
+                    wp_send_json_error();
+                }
 
-                    if ($rating > 0 && $rating <=2) 
-                    {
-                        $sumPositiveRatings += $rating;
-                    }
-                    else if ($rating > -2 && $rating < 0)
-                    {   
-                        $sumNegativeRatings += $rating;
-                    }
+                $voteItemsSum += $voteItemValue;
+                
+                if ($votesSum > $vm_allowedVotesCount)
+                {
+                    wp_send_json_error();
+                }
 
-                    else {
-                        wp_send_json_error();
-                    }
-                    //kontrola souctu
-                    if ($sumPositiveRatings > 5)
-                    {
-                        wp_send_json_error();
-                    }
-                    if ($sumPositiveRatings < 4 && $sumNegativeRatings <= -2)
-                    {
-                        wp_send_json_error();
-                    }
-                    if ($sumNegativeRatings < -2)
-                    {
-                        wp_send_json_error();
-                    }
-                    // zapis z 'rating_xx' do 'xx'
-                    if (($position = strpos($id, "_")) !== FALSE) { 
-                        $userVote[substr($id, $position+1)] = $rating; 
-                    }
-    
-                    else {
-                      wp_send_json_error();
-                    }
+                // zapis z 'rating_xx' do 'xx'
+                if (($position = strpos($id, "_")) !== FALSE) 
+                { 
+                    $preparedVoteToSave[substr($id, $position+1)] = $voteItemValue; 
+                }
             }
 
-           // Kontrola predesleho zaznamu v db, pokud existuje smazat
+            if (getPreviousUserVote()) 
+            {
 
-           if (existsUserVote()) 
-           {
-               $deleteResult = deleteUserVote();
+                if (canUserRemakeVote()) 
+                {   
+                    // kontrola anulace hlasovani
+                    if (!empty($voteToSave)) 
+                    {
+                        deleteUserVote();
+                    }
 
-               if($deleteResult) 
-               {
-                   $saveResult = saveUserVote($userVote);
+                } else {
+                    wp_send_json_error();
+                }
 
-                   if ($saveResult) 
-                   {
-                       wp_send_json_success( $saveResult );
-                   }
-               }
-           }
+            }
+        
+            $savedVote = saveUserVote($preparedVoteToSave);
 
-           else 
-           {
-               $saveResult = saveUserVote($userVote);
-
-                   if ($saveResult) 
-                   {
-                       wp_send_json_success( $saveResult );
-                   }
-           }
+            if ($savedVote) 
+            {
+                wp_send_json_success( $savedVote );
+            }
+           
         }
     }   
 
     wp_send_json_error();
 }
 
-function saveUserVote(array $userVote) {
+function saveUserVote(array $userVote) 
+{
    
+   global $wpdb;
+   $userId = get_current_user_id();
+   $projectVotes = $wpdb->prefix . 'project_votes';
+
    if (!empty($userVote)) 
    {
-       global $wpdb;
-       $userId = get_current_user_id();
-       $projectVotes = $wpdb->prefix . 'project_votes';
        $posts = $wpdb->prefix . 'posts';
        $now = new DateTime();
        $currentTime = $now->format('Y-m-d H:i:s');
 
-            foreach($userVote as $postId => $value) {
-                $postId = (int) $postId;
-                $sqlTitle = $wpdb->prepare("SELECT `post_Title` FROM `$posts` WHERE `ID` = %d", $postId);
-                if ($wpdb->get_var($sqlTitle)!==NULL) {
+       foreach($userVote as $postId => $value) 
+       {
+            $postId = (int) $postId;
+            $sqlTitle = $wpdb->prepare("SELECT `post_Title` FROM `$posts` WHERE `ID` = %d", $postId);
+
+                if ($wpdb->get_var($sqlTitle) !== NULL) 
+                {
                     $userVote[$postId] = array($userVote[$postId], $wpdb->get_var($sqlTitle));
                 }
 
-                if ($value > 0) {
+                if ($value > 0) 
+                {
                     $sql = $wpdb->prepare("INSERT INTO `$projectVotes` (`post_Id`, `user_Id`, `vote_insertTime`, `vote_positive`) VALUES (%d, %d, %s, %d)", $postId, $userId, $currentTime, $value);
                     
                 }
 
-                else {
-                    $sql = $wpdb->prepare("INSERT INTO `$projectVotes` (`post_Id`, `user_Id`, `vote_insertTime`, `vote_negative`) VALUES (%d, %d, %s, %d)", $postId, $userId, $currentTime, $value);
-                }
-                $wpdb->query($sql);
-
+            $wpdb->query($sql);
             
-            }
+        }
         
+        return $userVote;
 
-            return $userVote;
+   } else  {
+        // anulace hlasovani
+        $sql = $wpdb->prepare("UPDATE `$projectVotes` SET `vote_positive` = '0' WHERE `user_Id` = %d", $userId);
+        $wpdb->query($sql);
 
+        return 'voteInvalidated';
    }
-
-   else {
-       return false;
-   }
-
 
 }
 
-function deleteUserVote () {
-    // zvazit smazani nebo deaktivaci hlasu
-
+function deleteUserVote () 
+{
     global $wpdb;
     
     try {
@@ -147,7 +133,6 @@ function deleteUserVote () {
 
         $sql = $wpdb->prepare("DELETE FROM `$projectVotes` WHERE `user_Id` = %d", $userId);
         $wpdb->query($sql);
-        return true;
 
     } catch (Exception $e) {
         return 'Error! '. $wpdb->last_error;
@@ -155,8 +140,8 @@ function deleteUserVote () {
 
 }
 
-function existsUserVote () {
-
+function getPreviousUserVote () 
+{
     global $wpdb;
     
     $userId = get_current_user_id();
@@ -164,38 +149,72 @@ function existsUserVote () {
 
     $sql = $wpdb->prepare("SELECT `user_Id` FROM `$projectVotes` WHERE `user_Id` = %d", $userId);
      
-    if ($wpdb->get_var($sql)!==NULL) {
+    if ($wpdb->get_var($sql) !== NULL) {
         return true;
     }
-    else {
-        return false;
-    }
 
+    return;
 }
 
-function loadCurrentVoteState () {
+function canUserRemakeVote () 
+{
 
+    global $wpdb;
+    
+    $userId = get_current_user_id();
+    $projectVotes = $wpdb->prefix . 'project_votes';
+
+    $sql = $wpdb->prepare("SELECT `user_Id`, `vote_insertTime` FROM `$projectVotes` WHERE `user_Id` = %d", $userId);
+    $row = $wpdb->get_row($sql);
+
+    if ($row !== null) {
+        $queried_post =  get_page_by_title( "Projekty pravidla", OBJECT, "page");
+        $vm_daysToChangeVote = get_post_meta($queried_post->ID, "vm_daysToChangeVote", true);
+        
+        $timestamp = strtotime($row->vote_insertTime); //moment insertu
+        $timeString = "-". (int)$vm_daysToChangeVote ."day"; 
+        $timePeriod = strtotime($timeString); //moment pred x dny
+        
+
+        if ($timePeriod <= $timestamp) 
+        {   
+            return true;
+        }
+    }
+    
+    return;
+}
+
+function loadCurrentVoteState () 
+{
        global $wpdb;
        $userId = get_current_user_id();
        $projectVotes = $wpdb->prefix . 'project_votes';
        $posts = $wpdb->prefix . 'posts';
 
-       $sqlCurrentState = $wpdb->prepare("SELECT `post_Id`, `user_Id`, `vote_positive`, `vote_negative`, `$posts`.`post_Title` 
+       $sqlCurrentState = $wpdb->prepare("SELECT `post_Id`, `user_Id`, `vote_positive`, `$posts`.`post_Title` 
                                           FROM `$projectVotes` 
-                                          LEFT OUTER JOIN `$posts` ON `post_Id` = `$posts`.`ID`
-                                          WHERE `user_Id` = %d",
+                                          INNER JOIN `$posts` ON `post_Id` = `$posts`.`ID`
+                                          WHERE `user_Id` = %d
+                                          AND `vote_positive` = '1'",
                                           $userId);
+
+       $results = $wpdb->get_results($sqlCurrentState, ARRAY_A);
         
-       if ($wpdb->get_results($sqlCurrentState)!==NULL) {
-                $results = $wpdb->get_results($sqlCurrentState, ARRAY_A);
+       if (!empty($results)) {
+                
                 foreach ($results as $row) {
-                    $vote = ($row['vote_positive']=='0')?$row['vote_negative']:$row['vote_positive'];
-                    echo '<strong>'. $row['post_Title'] . '</strong>, hodnocení:&nbsp;<strong>' .$vote.'</strong><br />';
+                    echo 'Projekt <strong>'. $row['post_Title'] . '</strong>, 1 hlas<br />';
                 }
+
+       } 
+       
+       if (empty($results) && getPreviousUserVote()) 
+       {
+           echo 'Hlasování anulováno';
        }
-       else {
-           return null;
-       }
+
+       return;
 
 }
 

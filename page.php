@@ -1,5 +1,7 @@
-<?php get_header(); 
-the_post();?>
+<?php 
+    get_header(); 
+    the_post();
+?>
 
 
 <div class='container'>

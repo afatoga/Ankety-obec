@@ -71,13 +71,14 @@ if (!empty($_POST)) {
 
     if (empty($error)) {
 
-                $to = 'binuralka@gmail.com';
+                $to = 'tajemnik@obeczdiby.cz';
                 $subject = 'Ankety Obec - Žádost o registraci';
                 $body = 'Jméno uživatele: ' . $userName .
                 '<br /> Příjmení uživatele: ' . $userSurname .
                 '<br /> Email uživatele: ' . $userEmail .
                 '<br /> Tajné číslo uživatele: ' . $userPrivateKey;
-                $headers = array('Content-Type: text/html; charset=UTF-8');
+                $headers = ['Content-Type: text/html; charset=UTF-8'];
+                $headers[] = 'Cc: Petra Buršíková <petra.bursikova@obeczdiby.cz>';
                 
             wp_mail( $to, $subject, $body, $headers );
 
