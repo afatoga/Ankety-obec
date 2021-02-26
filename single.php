@@ -2,8 +2,6 @@
 get_header();
 the_post();
 wp_enqueue_script('vm_glightbox-script', get_template_directory_uri() . '/js/vm_glightbox.js', '', '', true);
-
-if (!is_user_logged_in()) wp_enqueue_script('vm_hiddenFormElement-script', get_template_directory_uri() . '/js/vm_hiddenFormElement.js', '', '', true);
 ?>
 
 
