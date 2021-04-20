@@ -2,9 +2,9 @@
 
 // laod posts by category
 // the_post();
-
-// get category id of posts to display
-$post_tax_id = get_theme_mod('af_polls_post_tax_id', 'false');
+$mods = get_theme_mods();
+// get tax term id of posts to display
+$post_tax_id = isset($mods['polls_post_tax_id']) ? $mods['polls_post_tax_id'] : 'false';
 //if ($post_tax_id === "false") echo 'deactivate';
 $post_tax_id = intval($post_tax_id); //tag_id = 8
 //var_dump($post_tax_id);
@@ -15,8 +15,7 @@ $post_tax_id = intval($post_tax_id); //tag_id = 8
 //     exit;
 // }
 
-$post_type_slug = get_theme_mod('af_polls_cpt_slug', 'navrh');
-
+$post_type_slug = isset($mods['polls_cpt_slug']) ? $mods['polls_cpt_slug'] : 'navrh';
 
 $post_list = $wpdb->get_col(
     "SELECT ID
@@ -32,11 +31,16 @@ get_header(); ?>
 
 <div class="container no-gutters">
     <div class="col-lg-7">
-        <?php foreach ($post_list as $post) : ?>
+        <?php
+        if (!empty($post_list)) :
+            foreach ($post_list as $post) : ?>
 
-            <div class="row"></div>
+                <div class="row">
+                    <?php echo $post; ?>
+                </div>
 
-        <?php endforeach; ?>
+        <?php endforeach;
+        endif; ?>
     </div>
     <div class="col">
 
