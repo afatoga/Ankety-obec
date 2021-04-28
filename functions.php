@@ -30,7 +30,7 @@ function wp_enqueue_scripts_action_callback()
         if (prevScrollpos > currentScrollPos) {
             document.querySelector('nav').style.top = '0';
         } else {
-            document.querySelector('nav').style.top = '-58px';
+            document.querySelector('nav').style.top = '-106.4px';
         }
         prevScrollpos = currentScrollPos;
         }
@@ -46,7 +46,7 @@ add_action("after_setup_theme", "after_setup_theme_action_callback");
 
 function after_setup_theme_action_callback()
 {
-    register_nav_menu("header-menu", __("Menu v hlavičce", "ZDIBY_NAS_BAVI"));
+    register_nav_menu("header-menu", __("Menu v hlavičce", "ANKETY_OBEC"));
 }
 
 // --- images bootstrap css ------------------------------
