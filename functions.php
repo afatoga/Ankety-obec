@@ -12,7 +12,7 @@ add_action("wp_enqueue_scripts", "wp_enqueue_scripts_action_callback");
 
 function wp_enqueue_scripts_action_callback()
 {
-    
+
 	// styles
     wp_enqueue_style("bootstrap", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css");
 	wp_enqueue_style("theme-custom", get_stylesheet_directory_uri() . "/style.css");
@@ -50,7 +50,7 @@ add_action("after_setup_theme", "after_setup_theme_action_callback");
 
 function after_setup_theme_action_callback()
 {
-    register_nav_menu("header-menu", __("Menu v hlavičce", "ZDIBY_NAS_BAVI"));
+    register_nav_menu("header-menu", __("Menu v hlavičce", "ANKETY_OBEC"));
 }
 
 // --- images bootstrap css ------------------------------
@@ -195,7 +195,7 @@ if (strpos($url, '/ankety/') === 0) {
                         itemsToReveal[i].classList.remove('hidden')
                 }
         })
-        
+
         ";
 
         wp_register_script('vm_torroScript-hidden', '', [], '', true);
