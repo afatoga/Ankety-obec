@@ -75,8 +75,14 @@ get_header(); ?>
         <?php endforeach;
         endif; ?>
     </div>
-    <div class="col-lg-5 border">
-
+    <div class="col-lg-5 border px-0">
+        <?php get_template_part('template-parts/par-bud-project-map', 'mapa', []); ?>
+        <form id="form">
+            <p>
+              <label>Hledat v omezené oblasti dané bounding boxem: <input type="text" id="queryAdv" value="Brno" /></label>
+              <input type="button" class="search-adv" value="Hledat" />
+            </p>
+        </form>
     </div>
 
 </div>

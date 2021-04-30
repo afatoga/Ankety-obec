@@ -292,3 +292,25 @@ div.torro-error-notice>p, div.torro-warning-notice>p, div.torro-success-notice>p
   -moz-column-count: 6;
   column-count: 6;
 }
+
+/*  bootstrap card component unset  */
+
+.card-header {
+  padding: initial;
+    margin-bottom: initial;
+    background-color: initial;
+    border-bottom: initial;
+}
+
+.card-body {
+  -ms-flex: initial;
+  flex: initial;
+  min-height: initial;
+  padding: initial;
+}
+
+.card-footer {
+  padding: initial;
+  background-color:initial;
+  border-top: initial;
+}
