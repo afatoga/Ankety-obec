@@ -24,13 +24,17 @@ function wp_enqueue_scripts_action_callback()
 
     // scripts
     $inline_script = "
+        var negMarginTop = '-58px';
+        if (window.innerWidth > 767) negMarginTop = '-104px';
+        if (window.innerWidth > 991) negMarginTop = '-106.4px';
+
         var prevScrollpos = window.pageYOffset;
         window.onscroll = function() {
         var currentScrollPos = window.pageYOffset;
         if (prevScrollpos > currentScrollPos) {
             document.querySelector('nav').style.top = '0';
         } else {
-            document.querySelector('nav').style.top = '-58px';
+            document.querySelector('nav').style.top = negMarginTop;
         }
         prevScrollpos = currentScrollPos;
         }
