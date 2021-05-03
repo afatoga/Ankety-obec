@@ -6,6 +6,19 @@ foreach (glob(get_template_directory() . "/inc/*.php") as $file) {
     require $file;
 }
 
+
+// google maps api
+
+// function my_acf_google_map_api( $api ){
+	
+// 	$api['key'] = 'AIzaSyAgMSCuU4Li50yOXFsMp7GEgoPkhJdTT6s';
+	
+// 	return $api;
+	
+// }
+
+// add_filter('acf/fields/google_map/api', 'my_acf_google_map_api');
+
 // --- styles & scripts ---------------------------
 
 add_action("wp_enqueue_scripts", "wp_enqueue_scripts_action_callback");
