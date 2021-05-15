@@ -32,8 +32,8 @@ function vm_render_seznam_mapy()
     wp_enqueue_script("seznam_mapy-all_points", get_stylesheet_directory_uri() . '/inc/js/seznam_mapy-select-location.js', ['seznam_mapy'], false, true);
 
 ?>
-
-    <div id="vm_seznam-mapy" class="postbox-container" style="max-width:800px;">
+<!-- style="max-width:800px;" -->
+    <div id="vm_seznam-mapy" class="postbox-container">
 
         <div class="postbox">
         <div class="postbox-header"><h2 class="hndle">Lokalita návrhu</h2></div>
