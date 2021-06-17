@@ -42,7 +42,10 @@ var kliknuto = function(signal) {
 
 var odpoved = function(geocoder) {
     var results = geocoder.getResults();
-    alert(results.label);
+    //alert(results.label);
+    console.log(results);
+    document.getElementById('vm_location_humantext').value = results.label;
+    document.getElementById('vm_location_coords').value = results.coords.x+";"+results.coords.y;
 }
 
 var signals = m.getSignals();

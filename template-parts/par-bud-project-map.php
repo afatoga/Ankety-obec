@@ -10,4 +10,4 @@ wp_enqueue_script("seznam_mapy-all_points", get_stylesheet_directory_uri() . '/i
 
 ?>
 <!-- style="height:360px" -->
-<div id="m" class="h-100 mw-100" style="min-height:360px"></div>
+<div id="m" class="h-100 mw-100"></div>
