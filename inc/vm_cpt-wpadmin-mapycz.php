@@ -8,18 +8,30 @@ function af_save_navrh_callback($post_id, $post, $update)
     //  return;
     // }
 
-    //var_dump($_POST);
-    //die;
+    // var_dump($_POST);
+    // die;
 
-    $location_humantext = filter_var($_POST["vm_location_humantext"], FILTER_SANITIZE_STRING);
-    $location_coords = filter_var($_POST["vm_location_coords"], FILTER_SANITIZE_STRING);
+    if (isset($_POST['vm_location_humantext']) || isset($_POST['vm_location_coords'])) {
+        
+        if (isset($_POST['vm_location_erase']) && $_POST['vm_location_erase'] === "on") {
+            delete_post_meta($post_id, 'vm_location_humantext');
+            delete_post_meta($post_id, 'vm_location_coords');
+        }
 
-    // if (empty($location_humantext) && !empty($location_coords)) {
-    //     $vm_smap_error = ["msg" => "Prázdné pole s názvem vynačeného místa", "type" => "warning"];
-    // }
+        else {
 
-    update_post_meta($post_id, 'vm_location_humantext', $location_humantext);
-    update_post_meta($post_id, 'vm_location_coords', $location_coords);
+
+        $location_humantext = filter_var($_POST["vm_location_humantext"], FILTER_SANITIZE_STRING);
+        $location_coords = filter_var($_POST["vm_location_coords"], FILTER_SANITIZE_STRING);
+
+        update_post_meta($post_id, 'vm_location_humantext', $location_humantext);
+        update_post_meta($post_id, 'vm_location_coords', $location_coords);
+
+        //     $vm_smap_error = ["msg" => "Prázdné pole s názvem vynačeného místa", "type" => "warning"];
+        }
+
+
+    }
 }
 
 function vm_add_smap_box()
@@ -55,18 +67,30 @@ function vm_render_seznam_mapy($post)
     $mapy_script = '
         Loader.load();
 
-        document.getElementById("publish").addEventListener("click", function(event) {
+        var postForm = document.getElementById("post");
+        //var submitButton = document.getElementById("publish");
 
-            event.preventDefault();
+      
+        postForm.addEventListener("submit", function(event) {
 
-            if (document.getElementById("vm_location_coords").value.length && !document.getElementById("vm_location_humantext").value.length) {
-                if (!confirm("Lokační bod byl vyznačen, ale název místa chybí. Uložit bod bez názvu?")) return false;
-            }
+           
+
+                    if (document.getElementById("vm_location_coords").value.length && !document.getElementById("vm_location_humantext").value.length && !document.getElementById("vm_location_humantext").classList.contains("is-valid")) {
+                        
+                        if (!confirm("Lokační bod byl vyznačen, ale název místa chybí. Uložit bod bez názvu?")) event.preventDefault();
+                        else {
+                            document.getElementById("vm_location_humantext").classList.add("is-valid"); 
+                        }
+                        
+                    }
+             
+                    
+                    
                 
-                document.getElementById("post").submit();
-            
-            
-        });
+                
+            });
+
+
             ';
 
     //wp_enqueue_style("bootstrap", "https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css");
@@ -78,15 +102,14 @@ function vm_render_seznam_mapy($post)
 
 ?>
 
-<div class="acf-field">
-    <div id="m" style="height:380px;"></div>
-    <div class="acf-label" style="margin-top:1rem;">
-        <label for="vm_location_humantext">Adresa vyznačeného bodu:</label>
-        <input type="text" id="vm_location_humantext" name="vm_location_humantext"
-            value="<?php echo (isset($post_metas['vm_location_humantext'])) ? $post_metas['vm_location_humantext'] : ""; ?>" />
-        <input type="hidden" id="vm_location_coords" name="vm_location_coords"
-            value="<?php echo (isset($post_metas['vm_location_coords'])) ? $post_metas['vm_location_coords'] : ""; ?>" />
+    <div class="acf-field">
+        <div id="m" style="height:380px;"></div>
+        <div class="acf-label" style="margin-top:1rem;">
+            <label for="vm_location_humantext">Adresa vyznačeného bodu:</label>
+            <input type="text" id="vm_location_humantext" name="vm_location_humantext" value="<?php echo (isset($post_metas['vm_location_humantext'])) ? $post_metas['vm_location_humantext'] : ""; ?>" />
+            <input type="hidden" id="vm_location_coords" name="vm_location_coords" value="<?php echo (isset($post_metas['vm_location_coords'])) ? $post_metas['vm_location_coords'] : ""; ?>" />
+            <label style="margin-top:1rem;"><input type="checkbox" name="vm_location_erase">Zrušit označenou lokaci</label>
+        </div>
     </div>
-</div>
 <?php
 } ?>

@@ -34,7 +34,17 @@ get_header(); ?>
     <div class="col-lg-7 row">
         <?php
         if (!empty($post_list)) :
-            foreach ($post_list as $post_id) :
+            foreach ($post_list as $post_id):
+
+                $post_metas = get_post_meta($post_id);
+                $post_metas = array_combine(array_keys($post_metas), array_column($post_metas, '0'));
+
+
+                $vm_smap_details[$post_id] = [
+                    "title" => get_the_title($post_id),
+                    "humantext" => isset($post_metas['vm_location_humantext']) ? $post_metas['vm_location_humantext'] : "",
+                    "coords" => isset($post_metas['vm_location_coords']) ? $post_metas['vm_location_coords'] : ""
+                ];
 
                 $post_content = get_the_content(null, false, $post_id);
                 if (mb_strlen($post_content) > 300) $post_content = trim(mb_substr($post_content, 0, 300)) . "&hellip;";
@@ -76,13 +86,14 @@ get_header(); ?>
         endif; ?>
     </div>
     <div class="col-lg-5 border px-0">
-        <?php get_template_part('template-parts/par-bud-project-map', 'mapa', []); ?>
-        <form id="form">
+        <?php get_template_part('template-parts/par-bud-project-map', 'mapa', ['project_list' => $vm_smap_details]); ?>
+        
+        <!-- <form id="form">
             <p>
               <label>Hledat v omezené oblasti dané bounding boxem: <input type="text" id="queryAdv" value="Brno" /></label>
               <input type="button" class="search-adv" value="Hledat" />
             </p>
-        </form>
+        </form> -->
     </div>
 
 </div>
