@@ -11,13 +11,15 @@ function vm_renderMarkerLayer(coords) {
     anchor: { left: 10, bottom: 1 } /* Ukotvení značky za bod uprostřed dole */,
   }
 
-  var znacka = new SMap.Marker(coords, null, options)
+  coords = new SMap.Coords(coords["x"], coords["y"]).clone()
+
+  var znacka = new SMap.Marker(coords, "vm_marker-badge", options)
   //souradnice.push(c);
   //znacky.push(znacka);
 
-  var vrstva = new SMap.Layer.Marker("vm_single-point") /* Vrstva se značkami */
-
-  var previousMarkerLayer = m.getLayer("vm_single-point")
+  var vrstva = new SMap.Layer.Marker("vm_marker-layer") /* Vrstva se značkami */
+  //console.log(vrstva)
+  var previousMarkerLayer = m.getLayer("vm_marker-layer")
   if (previousMarkerLayer) m.removeLayer(previousMarkerLayer)
 
   m.addLayer(vrstva) /* Přidat ji do mapy */
@@ -35,7 +37,7 @@ window.addEventListener("load", function () {
       x: parseFloat(parsed_coords[0]),
       y: parseFloat(parsed_coords[1]),
     }
-    console.log(parsed_coords)
+    //console.log(parsed_coords)
     vm_renderMarkerLayer(parsed_coords)
   }
 })
