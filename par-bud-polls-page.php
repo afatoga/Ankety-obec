@@ -34,7 +34,9 @@ $post_list = $wpdb->get_col(
 
 get_header(); ?>
 
-<div onclick="vm_changeProjectDisplayMode(this)" data-display-mode="blocks">Změna zobrazení</div>
+<div class="d-flex container no-gutters mx-auto mt-5 py-4">
+<button type="button" onclick="vm_changeProjectDisplayMode(this)" data-display-mode="blocks">Změna zobrazení</button>
+</div>
 
 <div class="container px-0 row mx-auto">
 
