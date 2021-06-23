@@ -28,28 +28,38 @@ $post_list = $wpdb->get_col(
     ORDER BY ID ASC"
 );
 
+// foreach ($post_list as $post_id) {
+//     get_the_date('d. m. Y', $post_id)
+// }
+
 get_header(); ?>
 
+<div onclick="vm_changeProjectDisplayMode(this)" data-display-mode="blocks">Změna zobrazení</div>
+
 <div class="container px-0 row mx-auto">
-    <div class="col-lg-7 row">
+
+
+    <div class="col-lg-7 d-flex align-items-start flex-wrap px-0 pr-lg-2 vm_project-container">
         <?php
         if (!empty($post_list)) :
             foreach ($post_list as $post_id):
 
+                $post_project_status = get_field_object('project_status', $post_id);
+                if ($post_project_status["value"] !== "approved") continue;
+
                 $post_metas = get_post_meta($post_id);
                 $post_metas = array_combine(array_keys($post_metas), array_column($post_metas, '0'));
-
 
                 $vm_smap_details[$post_id] = [
                     "title" => get_the_title($post_id),
                     "humantext" => isset($post_metas['vm_location_humantext']) ? $post_metas['vm_location_humantext'] : "",
-                    "coords" => isset($post_metas['vm_location_coords']) ? $post_metas['vm_location_coords'] : ""
+                    "coords" => isset($post_metas['vm_location_coords']) ? $post_metas['vm_location_coords'] : "",
+                    "slug" => get_post_field( 'post_name', $post_id )
                 ];
 
                 $post_content = get_the_content(null, false, $post_id);
                 if (mb_strlen($post_content) > 300) $post_content = trim(mb_substr($post_content, 0, 300)) . "&hellip;";
 
-                $post_project_status = get_field_object('project_status', $post_id);
                 $status_label = "";
                 foreach ($post_project_status["choices"] as $value => $label) {
                     if ($post_project_status["value"] === $value) {
@@ -60,7 +70,7 @@ get_header(); ?>
 
         ?>
 
-                <div class="col-12 col-lg-6 my-2">
+                <div class="col-12 col-lg-6 mb-2 border py-2 vm_project-item">
 
                     <div>
                         <img class="mw-100 rounded" src="<?php echo get_the_post_thumbnail_url($post_id); ?>" alt="obrázek návrhu <?= $post_id ?>">
@@ -85,7 +95,7 @@ get_header(); ?>
         <?php endforeach;
         endif; ?>
     </div>
-    <div class="col-lg-5 border px-0">
+    <div class="col-lg-5 border px-0 vh-100">
         <?php get_template_part('template-parts/par-bud-project-map', 'mapa', ['project_list' => $vm_smap_details]); ?>
         
         <!-- <form id="form">
@@ -98,4 +108,6 @@ get_header(); ?>
 
 </div>
 
-<?php get_footer();
+<?php 
+wp_enqueue_script("vm_layout-effects", get_stylesheet_directory_uri() . '/inc/js/vm_layout-effects.js', [], false, true);
+get_footer();

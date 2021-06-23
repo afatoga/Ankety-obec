@@ -1,4 +1,4 @@
-<?php /* Template Name: vm_customPollsPage */
+<?php /* Template Name: vm_custom-polls-page */
 
 // laod posts by category
 the_post();

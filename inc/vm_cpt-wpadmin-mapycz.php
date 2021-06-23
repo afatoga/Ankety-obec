@@ -98,7 +98,7 @@ function vm_render_seznam_mapy($post)
 
     wp_enqueue_script("seznam_mapy", "https://api.mapy.cz/loader.js");
     wp_add_inline_script("seznam_mapy", $mapy_script, 'after');
-    wp_enqueue_script("seznam_mapy-all_points", get_stylesheet_directory_uri() . '/inc/js/seznam_mapy-select-location.js', ['seznam_mapy'], false, true);
+    wp_enqueue_script("seznam-mapy-all-points", get_stylesheet_directory_uri() . '/inc/js/vm_seznam-mapy-select-location.js', ['seznam_mapy'], false, true);
 
 ?>
 

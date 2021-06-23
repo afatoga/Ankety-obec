@@ -53,7 +53,7 @@ function wp_enqueue_scripts_action_callback()
         }
     ";
 
-    wp_enqueue_script("bootstrap", get_template_directory_uri() . "/vendor/bootstrap/js/bootstrap-native-v4.min.js", '', '', true);
+    wp_enqueue_script("bootstrap", "https://cdn.jsdelivr.net/npm/bootstrap.native@3.0.15/dist/bootstrap-native-v4.min.js", '', '', true);
     wp_add_inline_script("bootstrap", $inline_script, 'after');
 }
 
